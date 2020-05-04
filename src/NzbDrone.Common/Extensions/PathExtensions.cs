@@ -22,6 +22,7 @@ namespace NzbDrone.Common.Extensions
         private static readonly string UPDATE_BACKUP_FOLDER_NAME = "radarr_backup" + Path.DirectorySeparatorChar;
         private static readonly string UPDATE_BACKUP_APPDATA_FOLDER_NAME = "radarr_appdata_backup" + Path.DirectorySeparatorChar;
         private static readonly string UPDATE_CLIENT_FOLDER_NAME = "NzbDrone.Update" + Path.DirectorySeparatorChar;
+        private static readonly string UPDATE_V3_CLIENT_FOLDER_NAME = "Radarr.Update" + Path.DirectorySeparatorChar;
         private static readonly string UPDATE_LOG_FOLDER_NAME = "UpdateLogs" + Path.DirectorySeparatorChar;
 
         public static string CleanFilePath(this string path)
@@ -246,9 +247,16 @@ namespace NzbDrone.Common.Extensions
             return Path.Combine(GetUpdateSandboxFolder(appFolderInfo), UPDATE_PACKAGE_FOLDER_NAME);
         }
 
-        public static string GetUpdateClientFolder(this IAppFolderInfo appFolderInfo)
+        public static string GetUpdateClientFolder(this IAppFolderInfo appFolderInfo, Version version)
         {
-            return Path.Combine(GetUpdatePackageFolder(appFolderInfo), UPDATE_CLIENT_FOLDER_NAME);
+            if (version.Major >= 3)
+            {
+                return Path.Combine(GetUpdatePackageFolder(appFolderInfo), UPDATE_V3_CLIENT_FOLDER_NAME);
+            }
+            else
+            {
+                return Path.Combine(GetUpdatePackageFolder(appFolderInfo), UPDATE_CLIENT_FOLDER_NAME);
+            }
         }
 
         public static string GetUpdateClientExePath(this IAppFolderInfo appFolderInfo)
