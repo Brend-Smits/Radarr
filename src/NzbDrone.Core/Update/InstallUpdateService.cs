@@ -121,7 +121,7 @@ namespace NzbDrone.Core.Update
 
             if (OsInfo.IsNotWindows && _configFileProvider.UpdateMechanism == UpdateMechanism.Script)
             {
-                InstallUpdateWithScript(updateSandboxFolder);
+                InstallUpdateWithScript(updateSandboxFolder, updatePackage.Version);
                 return;
             }
 
@@ -153,7 +153,7 @@ namespace NzbDrone.Core.Update
             }
         }
 
-        private void InstallUpdateWithScript(string updateSandboxFolder)
+        private void InstallUpdateWithScript(string updateSandboxFolder, Version version)
         {
             var scriptPath = _configFileProvider.UpdateScriptPath;
 
@@ -168,7 +168,7 @@ namespace NzbDrone.Core.Update
             }
 
             _logger.Info("Removing NzbDrone.Update");
-            _diskProvider.DeleteFolder(_appFolderInfo.GetUpdateClientFolder(), true);
+            _diskProvider.DeleteFolder(_appFolderInfo.GetUpdateClientFolder(version), true);
 
             _logger.ProgressInfo("Starting update script: {0}", _configFileProvider.UpdateScriptPath);
             _processProvider.Start(scriptPath, GetUpdaterArgs(updateSandboxFolder));
