@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using NLog;
@@ -126,7 +126,7 @@ namespace NzbDrone.Core.Update
             }
 
             _logger.Info("Preparing client");
-            _diskTransferService.TransferFolder(_appFolderInfo.GetUpdateClientFolder(), updateSandboxFolder, TransferMode.Move, false);
+            _diskTransferService.TransferFolder(_appFolderInfo.GetUpdateClientFolder(updatePackage.Version), updateSandboxFolder, TransferMode.Move, false);
 
             _logger.Info("Starting update client {0}", _appFolderInfo.GetUpdateClientExePath());
             _logger.ProgressInfo("Radarr will restart shortly.");
